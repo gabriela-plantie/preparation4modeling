@@ -17,14 +17,16 @@
 #'valor_variable1=round(runif(100)*10,0)
 #'target_variable1=as.numeric((valor_variable1/10+runif(100)*0.25) >0.525)
 #'tbla<-data.frame(variable1=valor_variable1, target_n= target_variable1)
-#' agrupa_ordinal(tbla, 'variable1', 'target_n', 10, 0.8)
+#'agrupa_ordinal(tbla, 'variable1', 'target_n', 10, 0.8)
 
 
 
 #tbla_0=tbla
 agrupa_ordinal<-function(tbla_0, variable_name, target_name, q, limite){
-    #variable_name='variable1'; target_name='target_n';q=10; limite=0.6
+  #variable_name='variable1'; target_name='target_n';q=10; limite=0.6
   #print('inicio')
+  distintos=length(unique(tbla_0[,variable_name]))
+  if(distintos<q){stop('number of quantiles should be greater than number of unique values of the variable to be analyzed')}
   tbla<-data.frame(tbla_0)
   tbla<-tbla[!is.na(tbla[, variable_name]),]
   tbla$deciles<-genera_deciles(tbla, variable_name, target_name, q)

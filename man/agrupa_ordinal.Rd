@@ -4,16 +4,16 @@
 \alias{agrupa_ordinal}
 \title{agrupa_ordinal}
 \usage{
-agrupa_ordinal(tbla, variable_name, target_name, q, limite)
+agrupa_ordinal(tbla_0, variable_name, target_name, q, limite)
 }
 \arguments{
-\item{tbla}{table with data. It has to have the ordinal variable and the target variable.}
-
 \item{variable_name}{name of the ordinal variable that you want to group.}
 
 \item{q}{number of quantiles that you want to create. Uses quantile function.}
 
 \item{limite}{probability of not belonging to the same group. Used for the hypergeometric test.}
+
+\item{tbla}{table with data. It has to have the ordinal variable and the target variable.}
 
 \item{target-name}{name if the target variable.}
 }

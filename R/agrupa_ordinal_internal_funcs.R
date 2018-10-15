@@ -1,7 +1,7 @@
-#' @import dplyr
-
-devtools::use_package('dplyr')
-`%>%`<- dplyr::`%>%`
+#' #' @import dplyr
+#'
+#' devtools::use_package('dplyr')
+#' `%>%`<- dplyr::`%>%`
 
 genera_deciles<-function(tbla, variable_name, target_name, q){
   tbla<-data.frame(tbla)
@@ -12,26 +12,11 @@ genera_deciles<-function(tbla, variable_name, target_name, q){
 }
 
 
-devuelve_tabla_agrupada<-function(tbla, variable_nom, target_nom){
-  #variable_nom='variable1';target_nom='target_n'
-
-  a<-data.frame(tbla %>%dplyr::group_by(get(variable_nom))%>%
-                  dplyr::summarise(tot=dplyr::n(),
-                                   pos=sum(get(target_nom)),
-                                   neg=tot-pos,
-                                   rt= pos/tot))
-  colnames(a)<-c(variable_nom, colnames(a)[2:ncol(a)] )
-  return(a)
-}
-
-#tbla_agrupada<-devuelve_tabla_agrupada(tbla, 'deciles', 'target_n')
-
 #el test me tiene q decir q es distinto, pero aun siendo distinto, no alcanza
 #tiene q ir siempre en el mismo sentido (creciente o no)
 #sino me queda algo oscilante, q tiene mas chances de tener overfitting
 
 encuentra_sentido<-function(tbla_0,variable_name, target_name){
-  #class(tbla); head(tbla); var_agrupada=variable_name
   tbla_0$deciles<-genera_deciles(tbla_0, variable_name, target_name, q=5)
   tbla_agr<-devuelve_tabla_agrupada(tbla_0, 'deciles', target_name)
   if(tbla_agr[nrow(tbla_agr), 'rt']>tbla_agr[1, 'rt']) {1} else{-1}
@@ -48,13 +33,11 @@ agrupar_consecutivos <- function(tbla_agrupada, var_en_rangos) {
   tbla_agrupada$prob[1]=NA
   tbla_agrupada$distancia[1]=NA
   tbla_agrupada = tbla_agrupada[tbla_agrupada$numero != numero_anterior,]
-
   return(tbla_agrupada)
 }
 
 
 obtiene_extremos<-function(tbla_agrupada, var_en_rangos){
-  #var_en_rangos<-'deciles'
   tbla_agrupada[,var_en_rangos]<-as.character(tbla_agrupada[,var_en_rangos])
   lim_inferior=gsub(',.*', '', tbla_agrupada[,var_en_rangos])
   lim_superior=gsub('.*,', '', tbla_agrupada[,var_en_rangos])
@@ -66,7 +49,6 @@ obtiene_extremos<-function(tbla_agrupada, var_en_rangos){
 
 ##recbir la tabla ordenada por decil o si es nominal por BR
 test_hyper2<-function(tbla_agrupada, var_en_rangos, sentido,  limite=0.025){
-  #print(tbla_agrupada)
   #ordena de acuerdo al sentido, para que sea siempre creciente en malos
   tbla_agrupada$numero<-1:nrow(tbla_agrupada)
   tbla_agrupada<-tbla_agrupada[order(sentido*tbla_agrupada$numero),]
@@ -100,8 +82,6 @@ test_hyper2<-function(tbla_agrupada, var_en_rangos, sentido,  limite=0.025){
       positivos_tot=sum(tbla_agrupada$pos[(i-1):i])#m
       negativos_tot=sum(tbla_agrupada$neg[(i-1):i])#n
       muestra=tbla_agrupada$tot[i]#k
-      #py=dhyper(x=positivos_muestra, m=positivos_tot, n=negativos_tot, k=muestra)
-      #lower tail (hasta)
       py= phyper(q=positivos_muestra, m=positivos_tot, n=negativos_tot, k=muestra, lower.tail = F, log.p=F) +
         dhyper(x=positivos_muestra, m=positivos_tot, n=negativos_tot, k=muestra)
       tbla_agrupada$prob[i]<-round(py,4)}
