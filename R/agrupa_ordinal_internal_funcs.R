@@ -90,7 +90,9 @@ test_hyper2<-function(tbla_agrupada, var_en_rangos, sentido,  limite=0.025){
   }
 
   seguir_agrupando = T;
-  while(seguir_agrupando){#evalua por test de fisher
+  tbla_agrupada$prob<-NA
+
+   while(seguir_agrupando){#evalua por test de fisher
     cantidad_de_filas = nrow(tbla_agrupada)
     tbla_agrupada<-tbla_agrupada[order(tbla_agrupada$numero *sentido),]
     for (i in 2:nrow(tbla_agrupada)){ #i=2
