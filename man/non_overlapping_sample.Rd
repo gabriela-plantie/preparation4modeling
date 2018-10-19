@@ -2,7 +2,8 @@
 % Please edit documentation in R/non_overlapping_sample.R
 \name{non_overlapping_sample}
 \alias{non_overlapping_sample}
-\title{non_overlapping_sample}
+\title{non_overlapping_sample
+take a sample with non overlapping elements for the same id (i.e. client id) according to a window of days.}
 \usage{
 non_overlapping_sample(tbla, date_field, id_field, window_days)
 }
@@ -16,8 +17,8 @@ non_overlapping_sample(tbla, date_field, id_field, window_days)
 \item{window_days}{number of days that are going to be in each side of the selected date in the sample.}
 }
 \description{
+non_overlapping_sample
 take a sample with non overlapping elements for the same id (i.e. client id) according to a window of days.
-.
 }
 \examples{
 set.seed(1)

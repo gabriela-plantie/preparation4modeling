@@ -1,6 +1,5 @@
-#' #' @import dplyr
+#' @import dplyr
 #'
-#' devtools::use_package('dplyr')
 #' `%>%`<- dplyr::`%>%`
 
 genera_deciles<-function(tbla, variable_name, target_name, q){

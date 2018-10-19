@@ -9,5 +9,8 @@ License: GPL
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
-Imports: dplyr, data.table, lubridate
+Imports: 
+    dplyr, 
+    data.table, 
+    lubridate
 Suggests: testthat

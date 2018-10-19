@@ -12,9 +12,7 @@ remove_rows <- function(tabla, indice_fila, date_field, id_field, window_days) {
 
 
 #' non_overlapping_sample
-#'
 #' take a sample with non overlapping elements for the same id (i.e. client id) according to a window of days.
-#' .
 #' @param tbla table with data. It has to have the date field and the id field (could be client id).
 #' @param date_field name of the  date field used to create the window of days.
 #' @param id_field name of the id (client id).
