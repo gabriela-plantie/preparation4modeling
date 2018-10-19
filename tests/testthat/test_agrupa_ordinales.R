@@ -1,5 +1,5 @@
 context('agrupa_ordinales')
-library(agrupaVariables)
+library(preparation4modeling)
 
 genera_tbla <- function() {
   valor_variable1=round(runif(100)*10,0)
