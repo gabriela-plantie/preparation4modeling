@@ -1,6 +1,6 @@
 #' @import dplyr
 #'
-#' `%>%`<- dplyr::`%>%`
+#' @importFrom magrittr "%>%"
 
 genera_deciles<-function(tbla, variable_name, target_name, q){
   tbla<-data.frame(tbla)
