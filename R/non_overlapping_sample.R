@@ -22,6 +22,7 @@ remove_rows <- function(tabla, indice_fila, date_field, id_field, window_days) {
 #' @export
 #' @examples
 #'set.seed(1)
+#'library(lubridate)
 #'sem = sample(seq.Date(ymd(20150101),ymd(20180101),1), 3000, replace = T)
 #'base = data.frame(fc_fin_semana = sem, cd_cliente=round(runif(3000)*10,0))
 #'base=base[!duplicated(base),]

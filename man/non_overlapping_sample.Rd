@@ -22,6 +22,7 @@ take a sample with non overlapping elements for the same id (i.e. client id) acc
 }
 \examples{
 set.seed(1)
+library(lubridate)
 sem = sample(seq.Date(ymd(20150101),ymd(20180101),1), 3000, replace = T)
 base = data.frame(fc_fin_semana = sem, cd_cliente=round(runif(3000)*10,0))
 base=base[!duplicated(base),]
