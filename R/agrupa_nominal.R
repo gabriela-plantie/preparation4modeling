@@ -24,15 +24,16 @@ agrupa_nominal<-function(tbla, variable_name, target_name, limite){
   tbla_agrupada[  , variable_name]<-as.character(tbla_agrupada[  , variable_name])
   while(grupos_0>grupos_1 & grupos_1>2 ){
     grupos_0<-nrow(tbla_agrupada)
-    mymat=arma_matriz_test(tbla_agrupada, 'grupo')
+    mymat=arma_matriz_test(tbla_agrupada, variable_name)
     if(max(mymat, na.rm=T)>limite){
-      resultado=genera_mayor(mymat, tbla_agrupada, campo='grupo')
+      resultado=genera_mayor(mymat, tbla_agrupada, variable_name)
       nuevo_nombre=paste(unlist(resultado[3:4]),  collapse='-')
-      tbla_agrupada[  tbla_agrupada[  , campo]== resultado[3], campo]= nuevo_nombre
-      tbla_agrupada[  tbla_agrupada[  , campo]== resultado[4], campo]= nuevo_nombre
-      tbla_agrupada$grupo<-tbla_agrupada[,campo]
-      tbla_agrupada<-data.frame( tbla_agrupada%>%group_by(grupo)%>%summarise(pos=sum(pos), tot=sum(tot)))
-      colnames(tbla_agrupada)<-c(campo, 'pos', 'tot')
+      tbla_agrupada[  tbla_agrupada[  , variable_name]== resultado[3], variable_name]= nuevo_nombre
+      tbla_agrupada[  tbla_agrupada[  , variable_name]== resultado[4], variable_name]= nuevo_nombre
+      tbla_agrupada$grupo<-tbla_agrupada[,variable_name]
+      tbla_agrupada<-data.frame( tbla_agrupada%>%group_by(get(variable_name))%>%
+                                   summarise(pos=sum(pos), tot=sum(tot)))
+      colnames(tbla_agrupada)<-c(variable_name, 'pos', 'tot')
       grupos_1<-nrow(tbla_agrupada)
     }
   }
