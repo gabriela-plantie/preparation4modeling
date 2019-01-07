@@ -19,8 +19,8 @@
 
 agrupa_nominal<-function(tbla, variable_name, target_name, limite){
   tbla_agrupada<-devuelve_tabla_agrupada(tbla, variable_name, target_name)
-  grupos_0<-4
-  grupos_1<-3
+  grupos_0<-nrow(tbla_agrupada)
+  grupos_1<-unique(tbla_agrupada[  , variable_name])
   tbla_agrupada[  , variable_name]<-as.character(tbla_agrupada[  , variable_name])
   while(grupos_0>grupos_1 & grupos_1>2 ){
     grupos_0<-nrow(tbla_agrupada)
