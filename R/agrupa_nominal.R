@@ -35,6 +35,8 @@ agrupa_nominal<-function(tbla, variable_name, target_name, limite){
                                    summarise(pos=sum(pos), tot=sum(tot)))
       colnames(tbla_agrupada)<-c(variable_name, 'pos', 'tot')
       grupos_1<-nrow(tbla_agrupada)
+    } else {
+      break
     }
   }
   tbla_agrupada$rt=round(tbla_agrupada$pos/tbla_agrupada$tot,3)
