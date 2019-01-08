@@ -1,7 +1,23 @@
+
+#' aplica_agrupa_nominal
+#'
+#' apply agrupa_nominal to a list of variables
+#' .
+#' @param train_tbl table with data. It has to have the nominal variable and the target variable.
+#' @param char_cols name of the nominal variable that you want to group.
+#' @param target_name name if the target variable.
+#' @param lim_categ probability of not belonging to the same group. Used for the hypergeometric test.
+#' @keywords
+#' @export
+
+
+
+
+
 #aplica a una tabla y una lista de variables la funcion agrupa nominal
 #agrupa haciendo el test de la hipergeometrica (con funcion propia en git)--> convertir a funcion
 
-aplica_agrupa_nominal<-function(train_tbl, char_cols, lim_categ){
+aplica_agrupa_nominal<-function(train_tbl, char_cols, target_name, lim_categ){
   print('test')
   res_tbla=data.frame()
   j=1
@@ -9,10 +25,10 @@ aplica_agrupa_nominal<-function(train_tbl, char_cols, lim_categ){
   for (i in char_cols){#i=char_cols[8]
     distintos=length( unique(train_tbl[,get(i)]))
     #print(paste0('num: ', j, ' distintos: ', distintos ))
-    
+
     if( distintos <=lim_categ & distintos>2 ){
       print(paste0(j, ' de ', tot ,' - agrupa ', i , ' _ niveles: ', distintos))
-      res_nom<-agrupa_nominal(train_tbl, i, 'target', limite=0.05)
+      res_nom<-agrupa_nominal(train_tbl, i, target_name, limite=0.05)
       res_nom$neg<-NULL
       colnames(res_nom)<-c('grupos','pos' ,'tot', 'rt' )
       res_nom$var=i
@@ -21,15 +37,15 @@ aplica_agrupa_nominal<-function(train_tbl, char_cols, lim_categ){
     j=j+1
   }
   res_tbla$log_odds=log(res_tbla$rt/(1-res_tbla$rt))
-  
+
   print('##########formato')
   tbla_fin=data.frame()
   for (i in unique(res_tbla$var)){#i=unique(res_tbla$var)[2]
     #print(i)
-    sub_tbla=res_tbla[res_tbla$var==i,c('grupos','rt' ,'log_odds', 'tot')]  
+    sub_tbla=res_tbla[res_tbla$var==i,c('grupos','rt' ,'log_odds', 'tot')]
     lista=strsplit(sub_tbla$grupos, '%#%')
     tbla_var=data.frame()
-    
+
     for (j in 1:length(lista)){
       if(sub_tbla$tot>0){
         valor=unlist(lista[j])
@@ -39,14 +55,13 @@ aplica_agrupa_nominal<-function(train_tbl, char_cols, lim_categ){
         tbla_vert$rt=sub_tbla$rt[j]
         tbla_vert$grupo=j
         tbla_vert$variable=i
-        tbla_var=rbind(tbla_var, tbla_vert)  
+        tbla_var=rbind(tbla_var, tbla_vert)
       }
     }
     tbla_fin=rbind(tbla_fin, tbla_var)
   }
-  
+
   tbla_fin$log_odds=log(tbla_fin$rt/(1-tbla_fin$rt))
-  
+
   return(tbla_fin)
 }
- 
