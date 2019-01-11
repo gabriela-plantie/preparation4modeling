@@ -2,6 +2,7 @@
 
 export(agrupa_nominal)
 export(agrupa_ordinal)
+export(aplica_agrupa_nominal)
 export(non_overlapping_sample)
 import(data.table)
 import(dplyr)

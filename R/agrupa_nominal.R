@@ -11,8 +11,6 @@
 #' @export
 #' @examples
 #'set.seed(1)
-#'a=c(0.2, 0.3, 0.4, 0.7, 0.8, 0.9)
-#'b=log(a/(1-a))
 #'tbla<-data.frame(grupo=rep(c('a','b','c','d','e'),100/5),valor=as.numeric(runif(100)>.5 ))
 #'agrupa_nominal(tbla, variable_name='grupo', target_name='valor', limite=0.05)
 

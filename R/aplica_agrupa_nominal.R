@@ -9,6 +9,12 @@
 #' @param lim_categ probability of not belonging to the same group. Used for the hypergeometric test.
 #' @keywords
 #' @export
+#' @examples
+#' tbla<-data.frame(grupo1=rep(c('a','b','c','d','e'),100/5),
+#' valor=c( as.numeric(rep(a, 18)>.5) , rep(0, 5), rep(1, 5)) ,
+#' grupo2=rep(c('aa','bb','cc','cc','cc'),100/5) )
+#' agrupa_nominal(tbla, variable_name='grupo1', target_name='valor', limite=0.05)
+#' aplica_agrupa_nominal(train_tbl=tbla, char_cols=c('grupo1', 'grupo2'), target_name='valor', lim_cant_categ=20, limite=0.05)
 
 
 
@@ -17,18 +23,17 @@
 #aplica a una tabla y una lista de variables la funcion agrupa nominal
 #agrupa haciendo el test de la hipergeometrica (con funcion propia en git)--> convertir a funcion
 
-aplica_agrupa_nominal<-function(train_tbl, char_cols, target_name, lim_categ){
-  print('test')
+aplica_agrupa_nominal<-function(train_tbl, char_cols, target_name, lim_cant_categ, limite){
+  train_tbl<-data.table(train_tbl)
   res_tbla=data.frame()
   j=1
   tot=length(char_cols)
   for (i in char_cols){#i=char_cols[8]
     distintos=length( unique(train_tbl[,get(i)]))
-    #print(paste0('num: ', j, ' distintos: ', distintos ))
 
-    if( distintos <=lim_categ & distintos>2 ){
+    if( distintos <=lim_cant_categ & distintos>2 ){
       print(paste0(j, ' de ', tot ,' - agrupa ', i , ' _ niveles: ', distintos))
-      res_nom<-agrupa_nominal(train_tbl, i, target_name, limite=0.05)
+      res_nom<-agrupa_nominal(train_tbl, i, target_name, limite)
       res_nom$neg<-NULL
       colnames(res_nom)<-c('grupos','pos' ,'tot', 'rt' )
       res_nom$var=i
