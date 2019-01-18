@@ -15,6 +15,7 @@
 #'agrupa_nominal(tbla, variable_name='grupo', target_name='valor', limite=0.05)
 
 
+
 agrupa_nominal<-function(tbla, variable_name, target_name, limite){
   tbla_agrupada<-devuelve_tabla_agrupada(tbla, variable_name, target_name)
   grupos_0<-4
