@@ -10,7 +10,7 @@ aplica_agrupa_nominal(train_tbl, char_cols, target_name, lim_cant_categ,
 \arguments{
 \item{train_tbl}{table with data. It has to have the nominal variable and the target variable.}
 
-\item{char_cols}{name of the nominal variable that you want to group.}
+\item{char_cols}{name of the nominal variables that you want to group.}
 
 \item{target_name}{name if the target variable.}
 

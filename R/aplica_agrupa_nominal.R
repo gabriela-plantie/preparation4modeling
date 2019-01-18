@@ -4,7 +4,7 @@
 #' apply agrupa_nominal to a list of variables
 #' .
 #' @param train_tbl table with data. It has to have the nominal variable and the target variable.
-#' @param char_cols name of the nominal variable that you want to group.
+#' @param char_cols name of the nominal variables that you want to group.
 #' @param target_name name if the target variable.
 #' @param lim_categ probability of not belonging to the same group. Used for the hypergeometric test.
 #' @keywords

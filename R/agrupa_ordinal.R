@@ -23,17 +23,21 @@
 
 #tbla_0=tbla
 agrupa_ordinal<-function(tbla_0, variable_name, target_name, q, limite){
-  #variable_name='variable1'; target_name='target_n';q=10; limite=0.6
+  #variable_name='variable1'; target_name='target';q=20; limite=0.6
   #print('inicio')
+  tbla_0=data.frame(tbla_0)
+
   distintos=length(unique(tbla_0[,variable_name]))
-  if(distintos<q){stop('number of quantiles should be greater than number of unique values of the variable to be analyzed')}
+  q=min(q, distintos) ##para que no falle nunca
+
+  if(distintos<q){stop('number of quantiles should be smaller than number of unique values of the variable to be analyzed')}
   tbla<-data.frame(tbla_0)
   tbla<-tbla[!is.na(tbla[, variable_name]),]
   tbla$deciles<-genera_deciles(tbla, variable_name, target_name, q)
   tbla_agrupada<-devuelve_tabla_agrupada(tbla, 'deciles', target_name)
   sentido=encuentra_sentido(tbla_0, variable_name, target_name)
   #print(tbla_agrupada)
-  tabla_final<-test_hyper2(tbla_agrupada, 'deciles', sentido, limite)
+  tabla_final<-test_hyper2(tbla_agrupada, var_en_rangos='deciles', sentido, limite)
   return(tabla_final)
 }
 
