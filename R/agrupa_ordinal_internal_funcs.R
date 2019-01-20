@@ -68,7 +68,7 @@ obtiene_extremos<-function(tbla_agrupada, var_en_rangos){
 }
 
 
-agrupar_por_br <- function(tbla_agrupada,sentido) {
+agrupar_por_br <- function(tbla_agrupada,sentido,var_en_rangos) {
   print('agrupa por br')
   #print(tbla_agrupada)
   seguir_agrupando = T;
@@ -94,7 +94,7 @@ agrupar_por_br <- function(tbla_agrupada,sentido) {
 
 
 
-agrupar_por_test <- function(tbla_agrupada,limite,sentido) {
+agrupar_por_test <- function(tbla_agrupada,limite,sentido,var_en_rangos) {
   print('agrupa test hypergeom')
   seguir_agrupando = T;
   tbla_agrupada$prob<-NA
