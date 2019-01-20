@@ -5,7 +5,7 @@
 \title{aplica_agrupa_nominal}
 \usage{
 aplica_agrupa_nominal(train_tbl, char_cols, target_name, lim_cant_categ,
-  limite)
+  limite, symbol_to_split)
 }
 \arguments{
 \item{train_tbl}{table with data. It has to have the nominal variable and the target variable.}

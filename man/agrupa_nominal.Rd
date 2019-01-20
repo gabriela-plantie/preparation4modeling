@@ -4,7 +4,7 @@
 \alias{agrupa_nominal}
 \title{agrupa_nominal}
 \usage{
-agrupa_nominal(tbla, variable_name, target_name, limite)
+agrupa_nominal(tbla, variable_name, target_name, limite, symbol_to_split)
 }
 \arguments{
 \item{tbla}{table with data. It has to have the nominal variable and the target variable.}
@@ -14,6 +14,8 @@ agrupa_nominal(tbla, variable_name, target_name, limite)
 \item{target_name}{name if the target variable.}
 
 \item{limite}{probability of not belonging to the same group. Used for the hypergeometric test.}
+
+\item{symbol_to_split}{symbol to split values of variables}
 }
 \description{
 group values of nominal varibles according to a target variable

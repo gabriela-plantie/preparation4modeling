@@ -23,7 +23,7 @@
 #aplica a una tabla y una lista de variables la funcion agrupa nominal
 #agrupa haciendo el test de la hipergeometrica (con funcion propia en git)--> convertir a funcion
 
-aplica_agrupa_nominal<-function(train_tbl, char_cols, target_name, lim_cant_categ, limite){
+aplica_agrupa_nominal<-function(train_tbl, char_cols, target_name, lim_cant_categ, limite, symbol_to_split){
   train_tbl<-data.table(train_tbl)
   res_tbla=data.frame()
   j=1
@@ -33,7 +33,7 @@ aplica_agrupa_nominal<-function(train_tbl, char_cols, target_name, lim_cant_cate
 
     if( distintos <=lim_cant_categ & distintos>2 ){
       print(paste0(j, ' de ', tot ,' - agrupa ', i , ' _ niveles: ', distintos))
-      res_nom<-agrupa_nominal(train_tbl, i, target_name, limite)
+      res_nom<-agrupa_nominal(train_tbl, i, target_name, limite, symbol_to_split)
       res_nom$neg<-NULL
       colnames(res_nom)<-c('grupos','pos' ,'tot', 'rt' )
       res_nom$var=i
@@ -48,7 +48,7 @@ aplica_agrupa_nominal<-function(train_tbl, char_cols, target_name, lim_cant_cate
   for (i in unique(res_tbla$var)){#i=unique(res_tbla$var)[2]
     #print(i)
     sub_tbla=res_tbla[res_tbla$var==i,c('grupos','rt' ,'log_odds', 'tot')]
-    lista=strsplit(sub_tbla$grupos, '%#%')
+    lista=strsplit(sub_tbla$grupos, symbol_to_split)
     tbla_var=data.frame()
 
     for (j in 1:length(lista)){

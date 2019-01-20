@@ -7,6 +7,7 @@
 #' @param variable_name name of the ordinal variable that you want to group.
 #' @param target_name name if the target variable.
 #' @param limite probability of not belonging to the same group. Used for the hypergeometric test.
+#' @param symbol_to_split symbol to split values of variables
 #' @keywords
 #' @export
 #' @examples
@@ -16,7 +17,7 @@
 
 
 
-agrupa_nominal<-function(tbla, variable_name, target_name, limite){
+agrupa_nominal<-function(tbla, variable_name, target_name, limite, symbol_to_split){
   tbla_agrupada<-devuelve_tabla_agrupada(tbla, variable_name, target_name)
   grupos_0<-4
   grupos_1<-3
@@ -26,7 +27,7 @@ agrupa_nominal<-function(tbla, variable_name, target_name, limite){
     mymat=arma_matriz_test(tbla_agrupada, variable_name)
     if(max(mymat, na.rm=T)>limite){
       resultado=genera_mayor(mymat, tbla_agrupada, variable_name)
-      nuevo_nombre=paste(unlist(resultado[3:4]),  collapse='-')
+      nuevo_nombre=paste(unlist(resultado[3:4]),  collapse=symbol_to_split)
       tbla_agrupada[  tbla_agrupada[  , variable_name]== resultado[3], variable_name]= nuevo_nombre
       tbla_agrupada[  tbla_agrupada[  , variable_name]== resultado[4], variable_name]= nuevo_nombre
       tbla_agrupada$grupo<-tbla_agrupada[,variable_name]
