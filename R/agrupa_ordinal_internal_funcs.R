@@ -129,9 +129,9 @@ test_hyper2<-function(tbla_agrupada, var_en_rangos, sentido,  limite=0.025){
   rownames(tbla_agrupada)<-1:nrow(tbla_agrupada)
   tbla_agrupada[, var_en_rangos] = as.character(tbla_agrupada[, var_en_rangos])
   #hace el test, despues se podria pasar como parametro
-  tbla_agrupada=agrupar_por_br(tbla_agrupada,sentido)
+  tbla_agrupada=agrupar_por_br(tbla_agrupada,sentido, var_en_rangos)
 
-  tbla_agrupada=agrupar_por_test(tbla_agrupada, limite, sentido)
+  tbla_agrupada=agrupar_por_test(tbla_agrupada, limite, sentido, var_en_rangos)
 
   tbla_agrupada<-tbla_agrupada[order(tbla_agrupada$numero*sentido),]
   tbla_agrupada$distancia<-NULL

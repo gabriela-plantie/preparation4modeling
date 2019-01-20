@@ -1,7 +1,7 @@
 Package: preparation4modeling
 Type: Package
 Title: preparation for modeling 
-Version: 0.1.2
+Version: 0.1.3
 Author: Gabriela Plantie
 Maintainer: Gabriela Plantie <glplantie@gmail.com>
 Description: group of functions like non oerlapping sampling, ways of grouping ordinal and nominal variables according to a target variable.
