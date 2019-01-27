@@ -18,6 +18,10 @@
 
 
 agrupa_nominal<-function(tbla, variable_name, target_name, limite, symbol_to_split){
+  print(paste0("código para los NA es 'NoValor'. Hay: ", sum(is.na(tbla[, variable_name])), ' NA. '))
+  tbla[ is.na(variable_name) , variable_name]<-'NoValor'
+
+
   tbla_agrupada<-devuelve_tabla_agrupada(tbla, variable_name, target_name)
   grupos_0<-4
   grupos_1<-3

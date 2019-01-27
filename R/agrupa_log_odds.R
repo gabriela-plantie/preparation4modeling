@@ -1,4 +1,18 @@
+
+#' devuelve_tabla_agrupada
+#'
+#' group values of nominal varibles according to a target variable
+#' .
+#' @param tbla table with data. It has to have the nominal variable and the target variable.
+#' @param variable_nom name of the ordinal variable that you want to group.
+#' @param target_nom name if the target variable.
+#' @keywords
+#' @export
 #' @import dplyr
+#' @examples
+#'set.seed(1)
+
+
 
 devtools::use_package('dplyr')
 `%>%`<- dplyr::`%>%`
