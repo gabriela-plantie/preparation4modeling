@@ -1,7 +1,7 @@
 
 #' devuelve_tabla_agrupada
 #'
-#' group values of nominal varibles according to a target variable
+#' group values of nominal variables
 #' .
 #' @param tbla table with data. It has to have the nominal variable and the target variable.
 #' @param variable_nom name of the ordinal variable that you want to group.

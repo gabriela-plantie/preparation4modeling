@@ -18,7 +18,7 @@ agrupa_nominal(tbla, variable_name, target_name, limite, symbol_to_split)
 \item{symbol_to_split}{symbol to split values of variables}
 }
 \description{
-group values of nominal varibles according to a target variable
+group values of nominal variables according to a target variable
 .
 }
 \examples{
