@@ -18,6 +18,7 @@
 
 
 agrupa_nominal<-function(tbla, variable_name, target_name, limite, symbol_to_split){
+  tbla<-data.frame(tbla)
   print(paste0("código para los NA es 'NoValor'. Hay: ", sum(is.na(tbla[, variable_name])), ' NA. '))
   tbla[ is.na(variable_name) , variable_name]<-'NoValor'
 
