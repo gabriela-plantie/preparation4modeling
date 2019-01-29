@@ -21,9 +21,10 @@
 
 
 
-#tbla_0=tbla
+
 agrupa_ordinal<-function(tbla_0, variable_name, target_name, q, limite){
-  #variable_name='variable1'; target_name='target';q=20; limite=0.6
+  #tbla_0=tbla
+   #variable_name='variable1'; target_name='target';q=20; limite=0.6
   #print('inicio')
   tbla_0=data.frame(tbla_0)
 

@@ -20,10 +20,11 @@
 
 
 
-#aplica a una tabla y una lista de variables la funcion agrupa nominal
-#agrupa haciendo el test de la hipergeometrica (con funcion propia en git)--> convertir a funcion
-
 aplica_agrupa_nominal<-function(train_tbl, char_cols, target_name, lim_cant_categ, limite, symbol_to_split){
+
+  # aplica a una tabla y una lista de variables la funcion agrupa nominal
+  # agrupa haciendo el test de la hipergeometrica (con funcion propia en git)--> convertir a funcion
+
   train_tbl<-data.table(train_tbl)
   res_tbla=data.frame()
   j=1
