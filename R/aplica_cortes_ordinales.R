@@ -36,7 +36,9 @@ aplica_cortes_ordinales<-function(tbla_cortes_variables_ord, tbl, campo_merge){
   for (i in variables_ord){#i=variables_ord[3]
     print(i)
     tbla_rangos=tbla_fin[tbla_fin$var==i, ]
-    vars_grupo=  vars_target[,c(i, campo_merge), with=F] ##aplico a todos
+    tbla_rangos=tbla_rangos[, !is.na(colnames(tbla_rangos))]
+
+    vars_grupo=  tbl[,c(i, campo_merge)] ##aplico a todos
 
     ##merge por rangos
     vars_grupo<-data.frame(vars_grupo)
