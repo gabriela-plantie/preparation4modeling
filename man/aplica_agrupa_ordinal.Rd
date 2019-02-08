@@ -12,7 +12,7 @@ aplica_agrupa_ordinal(train_tbl, num_cols, target_name, num_ini_groups,
 
 \item{num_cols}{name of the numeric variables that you want to group.}
 
-\item{target_name}{name if the target variable.}
+\item{target_name}{name of the target variable.}
 
 \item{num_ini_groups}{probability of not belonging to the same group. Used for the hypergeometric test.}
 

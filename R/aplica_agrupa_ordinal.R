@@ -5,7 +5,7 @@
 #' .
 #' @param train_tbl table with data. It has to have the nominal variable and the target variable.
 #' @param num_cols name of the numeric variables that you want to group.
-#' @param target_name name if the target variable.
+#' @param target_name name of the target variable.
 #' @param num_ini_groups probability of not belonging to the same group. Used for the hypergeometric test.
 #' @param lim_categ probability of not belonging to the same group. Used for the hypergeometric test.
 #' @keywords
@@ -35,6 +35,7 @@ aplica_agrupa_ordinal<-function(train_tbl, num_cols, target_name, num_ini_groups
       res_nom<-agrupa_ordinal(tbla_0=train_tbl, variable_name=i, target_name, q=num_ini_groups ,limite)
       res_nom$neg<-NULL
       colnames(res_nom)<-c('grupos','pos' ,'tot', 'rt' )
+      res_nom<-res_nom[, c('grupos','pos' ,'tot', 'rt' )]
       res_nom$var=i
       res_tbla=rbind(res_tbla, res_nom)
       }

@@ -11,6 +11,7 @@
 #' @examples
 
 
+
 aplica_cortes_nominales<-function(tbla_cortes_variables_nom, tbl, campo_merge){
   variables_nom<-unique(tbla_cortes_variables_nom$variable)
   tbla_cortes_variables_nom<-unique(tbla_cortes_variables_nom)
@@ -42,10 +43,12 @@ aplica_cortes_nominales<-function(tbla_cortes_variables_nom, tbl, campo_merge){
 
     b=merge(vars_grupo,a, by.x=i, by.y='valor_agrup', all.x=T )
     print(dim(b))
-    b=b[, c(campo_merge, 'rt')]
+    b=b[, c(campo_merge,'grupo' ,'rt')]
     b$log_odds=log(b$rt/(1-b$rt))
-    colnames(b)[2]=paste0(i, '_rt')
-    colnames(b)[3]=paste0(i, '_log_odds')
+
+    colnames(b)[2]=paste0(i, '_grupo')
+    colnames(b)[3]=paste0(i, '_rt')
+    colnames(b)[4]=paste0(i, '_log_odds')
 
     print(paste0('dim b: ', list(dim(b))))
 

@@ -24,7 +24,7 @@ aplica_cortes_ordinales<-function(tbla_cortes_variables_ord, tbl, campo_merge){
 
 #  library(sqldf)
 
-  tbla_fin<-tbla_cortes_variables_ord
+  tbla_fin<-data.frame(tbla_cortes_variables_ord)
   tbla_fin$inicio<-as.numeric(sapply( tbla_fin$grupos, function(x) gsub('\\(', '', strsplit(x, ',')[[1]][1])))
   tbla_fin$fin<-as.numeric(sapply( tbla_fin$grupos, function(x) gsub('\\]', '',strsplit(x, ',')[[1]][2])))
 
@@ -43,13 +43,15 @@ aplica_cortes_ordinales<-function(tbla_cortes_variables_ord, tbl, campo_merge){
     ##merge por rangos
     vars_grupo<-data.frame(vars_grupo)
     #tbla_rangos
-    query_text=paste0("select f1.*, f2.rt from vars_grupo f1 inner join tbla_rangos f2 on (f1.", i, "> f2.inicio and f1.", i, "<= f2.fin)")
+    query_text=paste0("select f1.*, f2.grupos,f2.rt from vars_grupo f1 inner join tbla_rangos f2 on (f1.", i, "> f2.inicio and f1.", i, "<= f2.fin)")
     b=sqldf::sqldf(query_text, method='raw')
 
-    b=b[, c(campo_merge, 'rt')]
+    b=b[, c(campo_merge,'grupos' ,'rt')]
     b$log_odds=log(b$rt/(1-b$rt))
-    colnames(b)[2]=paste0(i, '_rt')
-    colnames(b)[3]=paste0(i, '_log_odds')
+    colnames(b)[2]=paste0(i, '_grupo')
+
+    colnames(b)[3]=paste0(i, '_rt')
+    colnames(b)[4]=paste0(i, '_log_odds')
 
     print(paste0('dim b: ', list(dim(b))))
     fin=merge( fin ,b, by=eval(campo_merge), all.x=T)
