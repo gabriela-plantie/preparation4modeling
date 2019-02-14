@@ -28,6 +28,7 @@ agrupa_ordinal<-function(tbla_0, variable_name, target_name, q, limite){
   #print('inicio')
   tbla_0=data.frame(tbla_0)
 
+
   distintos=length(unique(tbla_0[,variable_name]))
   q=min(q, distintos) ##para que no falle nunca
 
