@@ -45,7 +45,6 @@ performance_bivariado_dummies_log<-function(tbla, variable_name, target_name,lim
   colnames(tbla1)=c(paste0(variable_name, colnames(tbla1) ))
   tbla2=cbind(y=tbla$y, tbla1)
 
-  print('entrena logistica')
 
   form_2=paste(colnames(tbla1), collapse=' + ')
   form_all=formula(paste0('y ~ ', form_2))

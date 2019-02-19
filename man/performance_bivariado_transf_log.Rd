@@ -4,7 +4,8 @@
 \alias{performance_bivariado_transf_log}
 \title{performance_bivariado_transf_log}
 \usage{
-performance_bivariado_transf_log(tbla, variable_name, target_name)
+performance_bivariado_transf_log(tbla, variable_name, target_name,
+  limite_steps)
 }
 \arguments{
 \item{tbla}{table with data. It has to have the variable and the target variable.}

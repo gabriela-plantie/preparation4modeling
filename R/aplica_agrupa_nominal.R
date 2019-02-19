@@ -66,6 +66,7 @@ aplica_agrupa_nominal<-function(train_tbl, char_cols, target_name, lim_cant_cate
     }
     tbla_fin=rbind(tbla_fin, tbla_var)
   }
+  tbla_fin$rt=ifelse(tbla_fin$rt==0,0.0001, tbla_fin$rt)
 
   tbla_fin$log_odds=log(tbla_fin$rt/(1-tbla_fin$rt))
 

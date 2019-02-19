@@ -21,7 +21,7 @@
 #' performance_bivariado_transf_log (tbla, variable_name='x1',target_name='y' )
 #' performance_bivariado_transf_log (tbla, variable_name='x2',target_name='y' )
 
-performance_bivariado_transf_log<-function(tbla, variable_name, target_name){
+performance_bivariado_transf_log<-function(tbla, variable_name, target_name, limite_steps){
 
   tbla<-data.frame(tbla)
   tbla$y<-tbla[, target_name]
@@ -69,7 +69,7 @@ performance_bivariado_transf_log<-function(tbla, variable_name, target_name){
 
   tbla2<-tbla
 
-  devuelve=performance_modelo_logistica(tbla2, mod_all, variable_name, form_all)
+  devuelve=performance_modelo_logistica(tbla2, mod_all, variable_name, form_all, limite_steps)
   return(devuelve)
 
 }

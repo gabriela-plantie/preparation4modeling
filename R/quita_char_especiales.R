@@ -26,9 +26,11 @@ quita_char_especiales<-function(tbla, campo){
   tbla[ ,campo]<-gsub('\\+', 'mas',tbla[ ,campo])
   tbla[ ,campo]<-gsub('-', '_',tbla[ ,campo])
   tbla[ ,campo]<-gsub('&', '_',tbla[ ,campo])
-  #tbla[ ,campo]<-gsub('\\', '',tbla[ ,campo])
+  tbla[ ,campo]<-gsub('\\.', '_',tbla[ ,campo])
+  tbla[ ,campo]<-gsub('[( )]', '_',tbla[ ,campo])
+
+  #gsub('[( )]', '','alknsdja(asa)')
 
   return(tbla[,campo])
 
 }
-

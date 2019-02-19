@@ -32,7 +32,7 @@ loop_performance_logistica <- function(tbla, lista,target_name, flag_numerica=0 
   df_return=data.frame()
   for (variable_name in lista){#variable_name=lista[1]
   print(variable_name)
-    if(flag_numerica==1) {devuelve=performance_bivariado_transf_log (tbla, variable_name=variable_name,target_name='y' )}
+    if(flag_numerica==1) {devuelve=performance_bivariado_transf_log (tbla, variable_name=variable_name,target_name='y', limite_steps )}
     if(flag_numerica==0) {niveles=length(unique(tbla[, variable_name]))
     print(paste0('niveles: ', niveles))
       if(niveles<=limite_categ ){
