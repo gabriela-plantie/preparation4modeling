@@ -22,17 +22,24 @@ performance_modelo_logistica<-function(tbla2, mod_all, variable_name, form_all, 
     result_df<-data.frame(result$coefficients)
 
     quedan=rownames(result_df)[rownames(result_df)!='(Intercept)']
+    quedan_valor = paste(quedan, collapse = ",")
 
     tbla2$pred<-predict(mod_all, tbla2)
     niveles=unique(tbla2$y)
 
     ks_valor=ks.test(tbla2$pred[tbla2$y==niveles[1]], tbla2$pred[tbla2$y==niveles[2]])
-    auc_valor =auc(tbla2$y,tbla2$pred )
+    ks_valor = as.numeric(ks_valor$statistic)
+    auc_valor =as.numeric(auc(tbla2$y,tbla2$pred ))
     gini_valor=(2*auc_valor - 1)
 
-    ##agregar q devuelva con que transformaciones se queda???
 
-    devuelve=list(variable_name=variable_name, ks_valor=ks_valor,auc_valor=auc_valor,
-                  gini_valor=gini_valor, quedan=list(quedan))
+
+
+    devuelve = data.frame(variable_name = variable_name, ks_valor = ks_valor,
+                       auc_valor = auc_valor, gini_valor = gini_valor,
+                       quedan = quedan_valor)
+
+
+
     return(devuelve)
 }

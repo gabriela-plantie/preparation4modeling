@@ -29,25 +29,25 @@ loop_performance_logistica <- function(tbla, lista,target_name, flag_numerica=0 
   print('loop_performance_logistica')
   tbla<-data.frame(tbla)
   tbla$y<-tbla[, target_name]
+  q_vars=length(lista)
   df_return=data.frame()
-  for (variable_name in lista){#variable_name=lista[1]
-  print(variable_name)
-    if(flag_numerica==1) {devuelve=performance_bivariado_transf_log (tbla, variable_name=variable_name,target_name='y', limite_steps )}
-    if(flag_numerica==0) {niveles=length(unique(tbla[, variable_name]))
-    print(paste0('niveles: ', niveles))
-      if(niveles<=limite_categ ){
-      devuelve= performance_bivariado_dummies_log(tbla, variable_name, target_name,limite_steps)}}
+  for (i in (1:q_vars) ){#variable_name=lista[1]
+      variable_name =lista[i]
 
-    variable_name=devuelve$variable_name
-    ks_valor=as.numeric(devuelve$ks_valor$statistic)
-    auc_valor=as.numeric(devuelve$auc_valor)
-    gini_valor=devuelve$gini_valor
-    quedan_valor=paste(devuelve$quedan, collapse=',')
-    linea=data.frame(variable_name=variable_name, ks_valor=ks_valor,
-                     auc_valor=auc_valor, gini_valor=gini_valor,
-                     quedan=quedan_valor)
-    df_return=rbind(df_return, linea)
-    }
+      print(paste0('**********************',variable_name, ' ', i, ' de ', q_vars))
+        if(flag_numerica==1) {
+            linea=performance_bivariado_transf_log (tbla, variable_name=variable_name,target_name='y', limite_steps )
+        }
+        if(flag_numerica==0) {
+            niveles=length(unique(tbla[, variable_name]))
+            print(paste0('niveles: ', niveles))
+            if(niveles<=limite_categ ){
+                linea= performance_bivariado_dummies_log(tbla, variable_name, target_name,limite_steps)
+            }
+        }
+
+  df_return=rbind(df_return, linea)
+  }
   return(df_return)
 }
 

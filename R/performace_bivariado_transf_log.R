@@ -28,17 +28,25 @@ performance_bivariado_transf_log<-function(tbla, variable_name, target_name, lim
 
   tbla[, variable_name]<- as.numeric(tbla[, variable_name])
   #verifica NA
-  nas=sum(is.na(tbla[,variable_name]))
+  index_nas=is.na(tbla[,variable_name])
+
+  nas=sum(index_nas)
   #imputa nas
-  media=round(mean(tbla[,variable_name][!is.na(tbla[,variable_name])]),4)
+  media=round(mean(tbla[index_nas==F,variable_name]),4)
   print(paste0( variable_name, ' .NAs: ', nas, ' .Imputada con: ', media))
-  tbla[,variable_name][is.na(tbla[,variable_name])]<-media
+  tbla[index_nas,variable_name]<-media
 
   #verifica infinite
-  infs=sum(is.infinite(tbla[,variable_name]))
+  index_infs<-is.infinite(tbla[,variable_name])
+  infs=sum(index_infs)
   #imputa infs
   print(paste0( variable_name, ' .Infs: ', infs, ' .Imputada con: 0'))
-  tbla[,variable_name][is.infinite(tbla[,variable_name])]<-0
+  tbla[index_infs,variable_name]<-0
+
+
+  #flag de faltante
+  nombre0=paste0(variable_name, '_', 'flag_nas_infs')
+  tbla[,nombre0]<-as.numeric(index_infs|index_nas)
 
 
   print('aplica transformaciones')
@@ -64,12 +72,30 @@ performance_bivariado_transf_log<-function(tbla, variable_name, target_name, lim
 
   print('entrena logistica')
 
-  form_2=paste(c(variable_name, nombre1, nombre2, nombre3, nombre4, nombre5), collapse=' + ')
+  form_2=paste0(nombre0, ' * (',paste(c(variable_name, nombre1, nombre2, nombre3, nombre4, nombre5), collapse=' + '), ')')
+
+  #form_2=paste(c(variable_name, nombre0, nombre1, nombre2, nombre3, nombre4, nombre5), collapse=' + ')
   form_all=formula(paste0('y ~ ', form_2))
 
   tbla2<-tbla
+  #calcula el poder predictivo de la variable sobre los datos que hay
+  print('con nas')
+  devuelve_con_na=performance_modelo_logistica(tbla2, mod_all, variable_name, form_all, limite_steps)
 
-  devuelve=performance_modelo_logistica(tbla2, mod_all, variable_name, form_all, limite_steps)
+
+  print('sin nas')
+  tbla3<-tbla[index_nas==F,]
+  #calcula el poder predictivo sobre los que tenemos datos
+  devuelve_sin_na=performance_modelo_logistica(tbla3, mod_all, variable_name, form_all, limite_steps)
+
+  colnames(devuelve_sin_na)<-paste0(colnames(devuelve_sin_na), '_sin_na')
+
+  devuelve=merge(devuelve_con_na, devuelve_sin_na, by.x='variable_name', by.y='variable_name_sin_na', all.x=T, all.y=T)
+
+  ##le pego los na que tiene
+
+  devuelve$cant_nas=nas
+
   return(devuelve)
 
 }
