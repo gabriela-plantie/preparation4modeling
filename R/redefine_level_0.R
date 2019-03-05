@@ -11,6 +11,7 @@
 #' @examples
 
 redefine_level_0<-function(df_agrupada_y ,variables ,nombre_target){
+  df_agrupada_y<-data.frame(df_agrupada_y)
   df_agrupada_y$target= df_agrupada_y[,nombre_target]
   for (i in variables){
     print(i)

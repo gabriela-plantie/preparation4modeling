@@ -4,14 +4,14 @@
 \alias{agrupa_nominal}
 \title{agrupa_nominal}
 \usage{
-agrupa_nominal(tbla, variable_name, target_name, limite, symbol_to_split)
+agrupa_nominal(tbla, target_name, variable_name, limite, symbol_to_split)
 }
 \arguments{
 \item{tbla}{table with data. It has to have the nominal variable and the target variable.}
 
-\item{variable_name}{name of the ordinal variable that you want to group.}
-
 \item{target_name}{name if the target variable.}
+
+\item{variable_name}{name of the ordinal variable that you want to group.}
 
 \item{limite}{probability of not belonging to the same group. Used for the hypergeometric test.}
 
@@ -24,5 +24,5 @@ group values of nominal variables according to a target variable
 \examples{
 set.seed(1)
 tbla<-data.frame(grupo=rep(c('a','b','c','d','e'),100/5),valor=as.numeric(runif(100)>.5 ))
-agrupa_nominal(tbla, variable_name='grupo', target_name='valor', limite=0.05)
+agrupa_nominal(tbla, target_name='valor', variable_name='grupo',limite=0.05, symbol_to_split='\%#\%')
 }

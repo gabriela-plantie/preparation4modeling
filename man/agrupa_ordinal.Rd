@@ -4,12 +4,13 @@
 \alias{agrupa_ordinal}
 \title{agrupa_ordinal}
 \usage{
-agrupa_ordinal(tbla_0, variable_name, target_name, q, limite)
+agrupa_ordinal(tbla_0, target_name, variable_name, grupos_iniciales,
+  limite)
 }
 \arguments{
 \item{variable_name}{name of the ordinal variable that you want to group.}
 
-\item{q}{number of quantiles that you want to create. Uses quantile function.}
+\item{grupos_iniciales}{number of quantiles that you want to create. Uses quantile function.}
 
 \item{limite}{probability of not belonging to the same group. Used for the hypergeometric test.}
 
@@ -26,5 +27,5 @@ set.seed(1)
 valor_variable1=round(runif(100)*10,0)
 target_variable1=as.numeric((valor_variable1/10+runif(100)*0.25) >0.525)
 tbla<-data.frame(variable1=valor_variable1, target_n= target_variable1)
-agrupa_ordinal(tbla, 'variable1', 'target_n', 10, 0.8)
+agrupa_ordinal(tbla,  'target_n','variable1', 10, 0.8)
 }

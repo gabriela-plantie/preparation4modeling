@@ -8,7 +8,10 @@ genera_deciles<-function(tbla, variable_name, target_name, q){
   tbla1<-tbla[!is.na(tbla[, variable_name]),]
   grupos<-quantile(tbla1[, variable_name], probs=seq(0,1,as.numeric(1/q)), na.rm=T)
   grupos<-unique(grupos)
-  a_devolver<- cut(tbla[,variable_name], c(-Inf, grupos[2: (length(grupos)-1)], Inf ))
+
+  deciles<- cut(tbla[,variable_name], c(-Inf, grupos[2: (length(grupos)-1)], Inf ))
+
+  a_devolver=deciles #data.frame(corte_inf=corte_inf, corte_sup=corte_sup, deciles= deciles)
   return(a_devolver)
 }
 
@@ -17,9 +20,8 @@ genera_deciles<-function(tbla, variable_name, target_name, q){
 #tiene q ir siempre en el mismo sentido (creciente o no)
 #sino me queda algo oscilante, q tiene mas chances de tener overfitting
 
-encuentra_sentido<-function(tbla_0,variable_name, target_name){
+encuentra_sentido<-function(tbla_0, variable_name, target_name){
   print('encuentra sentido')
-
   tbla_0$deciles<-genera_deciles(tbla_0, variable_name, target_name, q=5)
   tbla_agr<-devuelve_tabla_agrupada(tbla_0, 'deciles', target_name)
   if(tbla_agr[nrow(tbla_agr), 'rt']>tbla_agr[1, 'rt']) {1} else{-1}
@@ -30,8 +32,8 @@ agrupar_consecutivos <- function(tbla_agrupada, var_en_rangos, sentido) {
     return(tbla_agrupada)
   }
 
-  print('agrupa consecutivos')
-  print(nrow(tbla_agrupada))
+  #print('agrupa consecutivos')
+  #print(nrow(tbla_agrupada))
   if( sentido==1 ) {
     numero_anterior = max(tbla_agrupada$numero[tbla_agrupada$numero<tbla_agrupada$numero[1]])
     anterior = tbla_agrupada[tbla_agrupada$numero == numero_anterior,]
@@ -62,7 +64,7 @@ obtiene_extremos<-function(tbla_agrupada, var_en_rangos){
   lim_inferior=gsub(',.*', '', tbla_agrupada[,var_en_rangos])
   lim_superior=gsub('.*,', '', tbla_agrupada[,var_en_rangos])
   tbla_agrupada[,var_en_rangos]<-paste0(lim_inferior, ',',lim_superior )
-  tbla_agrupada$log_odds=log(tbla_agrupada$pos/tbla_agrupada$neg)
+  #tbla_agrupada$log_odds=log(tbla_agrupada$pos/tbla_agrupada$neg)
   tbla_agrupada$orden<-1:nrow(tbla_agrupada)
   return(tbla_agrupada)
 }
@@ -139,6 +141,6 @@ test_hyper2<-function(tbla_agrupada, var_en_rangos, sentido,  limite=0.025){
   tbla_agrupada$numero<-NULL
 
   tbla_final<-obtiene_extremos(tbla_agrupada , var_en_rangos )
-  return( tbla_final)
+  return(tbla_final)
 }
 

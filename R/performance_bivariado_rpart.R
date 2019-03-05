@@ -31,7 +31,7 @@ performance_bivariado_rpart <- function(tbla, variable_name,target_name ){
   cero=sort(unique(tbla$y))[1]
   uno=sort(unique(tbla$y))[2]
 
-  ks_valor=ks.test(tbla$pred[df$y==cero], tbla$pred[tbla$y==uno])
+  ks_valor=ks.test(tbla$pred[tbla$y==cero], tbla$pred[tbla$y==uno])
   auc_valor =auc(tbla$y,tbla$pred )
   gini_valor=(2*auc_valor - 1)
 

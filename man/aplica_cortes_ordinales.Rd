@@ -14,6 +14,15 @@ aplica_cortes_ordinales(tbla_cortes_variables_ord, tbl, campo_merge)
 \item{campo_merge}{name of the variable used to merge the result and the data (index).}
 }
 \description{
-apply the cuts obteined with aplica_agrupa_nominal to a list of new variables
+apply the cuts obtained with aplica_agrupa_nominal to a list of new variables
 .
+}
+\examples{
+tbla<-data.frame(
+id=1:100,
+grupo1=rep(1:5,100/5),
+valor=c( as.numeric(rep(runif(90), 1)>.5) , rep(0, 5), rep(1, 5)) ,
+grupo2=rep(c(11,22,33,33,33),100/5))
+tbl_grupos=aplica_agrupa_ordinal(train_tbl=tbla, num_cols=c('grupo1', 'grupo2'), target_name='valor', num_ini_groups=100, limite=0.05)
+aplica_cortes_ordinales(tbla_cortes_variables_ord=tbl_grupos, tbl=tbla, campo_merge='id')
 }

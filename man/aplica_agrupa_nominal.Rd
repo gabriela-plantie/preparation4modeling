@@ -21,9 +21,10 @@ apply agrupa_nominal to a list of variables
 .
 }
 \examples{
-tbla<-data.frame(grupo1=rep(c('a','b','c','d','e'),100/5),
-valor=c( as.numeric(rep(a, 18)>.5) , rep(0, 5), rep(1, 5)) ,
-grupo2=rep(c('aa','bb','cc','cc','cc'),100/5) )
-agrupa_nominal(tbla, variable_name='grupo1', target_name='valor', limite=0.05)
-aplica_agrupa_nominal(train_tbl=tbla, char_cols=c('grupo1', 'grupo2'), target_name='valor', lim_cant_categ=20, limite=0.05)
+tbla<-data.frame(
+grupo1=rep(c('a','b','c','d','e'),100/5),
+valor=c( as.numeric(rep(runif(90), 1)>.5) , rep(0, 5), rep(1, 5)) ,
+grupo2=rep(c('aa','bb','cc','cc','cc'),100/5)
+)
+ aplica_agrupa_nominal(train_tbl=tbla, char_cols=c('grupo1', 'grupo2'), target_name='valor', lim_cant_categ=20, limite=0.05, symbol_to_split = '\%#\%')
 }
