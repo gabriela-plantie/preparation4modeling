@@ -5,7 +5,7 @@
 \title{agrupa ctree}
 \usage{
 agrupa_ctree(tbla, target_name, variable_name, flag_numerica,
-  max_q_groups = 20, min_q_casos = 100)
+  max_q_groups = 20, min_q_casos = 100, algoritmo = "chaid")
 }
 \arguments{
 \item{tbla}{table with data. It has to have the variable and the target variable.}
@@ -13,6 +13,8 @@ agrupa_ctree(tbla, target_name, variable_name, flag_numerica,
 \item{target_name}{name of the target variable.}
 
 \item{variable_name}{name of the variable that you want to analyze.}
+
+\item{flag_numerica}{1 if the variable is numeric (ordinal), 0 if it is a factor}
 
 \item{max_q_groups}{maximum number of groups to split the variable}
 }
@@ -36,6 +38,7 @@ tbla = data.frame(y=y,x1=x1,x2=x2, x4=x4)
 q_nas=100
 x1[1:q_nas] = NA
 x4[1:q_nas]=NA
-agrupa_ctree (tbla, target_name='y', variable_name='x1',flag_numerica=1, max_q_groups=20,min_q_casos=100 )
+agrupa_ctree (tbla, target_name='y', variable_name='x1',flag_numerica=1, max_q_groups=10, algoritmo='chaid' )
+agrupa_ctree (tbla, target_name='y', variable_name='x1',flag_numerica=1, max_q_groups=100, algoritmo='evetree' )
 agrupa_ctree (tbla, target_name='y', variable_name='x4',flag_numerica=0 )
 }

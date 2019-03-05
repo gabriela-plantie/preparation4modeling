@@ -5,11 +5,11 @@
 #' @param tbla table with data. It has to have the variable and the target variable.
 #' @param variable_name name of the variable that you want to analyze.
 #' @param target_name name of the target variable.
-#' @flag_numerica 1 if the variable is numeric (ordinal), 0 if it is a factor
+#' @param flag_numerica 1 if the variable is numeric (ordinal), 0 if it is a factor
 #' @param max_q_groups maximum number of groups to split the variable
-#' @keywords
 #' @export
 #' @import party
+#' @import evtree
 #' @import dplyr
 #' @examples
 #' set.seed(1)
@@ -27,12 +27,13 @@
 #' q_nas=100
 #' x1[1:q_nas] = NA
 #' x4[1:q_nas]=NA
-#' agrupa_ctree (tbla, target_name='y', variable_name='x1',flag_numerica=1, max_q_groups=20,min_q_casos=100 )
+#' agrupa_ctree (tbla, target_name='y', variable_name='x1',flag_numerica=1, max_q_groups=10, algoritmo='chaid' )
+#' agrupa_ctree (tbla, target_name='y', variable_name='x1',flag_numerica=1, max_q_groups=100, algoritmo='evetree' )
 #' agrupa_ctree (tbla, target_name='y', variable_name='x4',flag_numerica=0 )
 
 
 
-agrupa_ctree<-function(tbla, target_name, variable_name, flag_numerica, max_q_groups=20, min_q_casos=100){
+agrupa_ctree<-function(tbla, target_name, variable_name, flag_numerica, max_q_groups=20, min_q_casos=100, algoritmo='chaid'){
   tbla<-data.frame(tbla)
   devuelve<-data.frame()
 
@@ -53,11 +54,19 @@ agrupa_ctree<-function(tbla, target_name, variable_name, flag_numerica, max_q_gr
 
   }
 
-  treeLoc<-ctree(target~(variable_valor), tbla,
+  if(algoritmo=='chaid'){
+  treeLoc<-party::ctree(target~(variable_valor), tbla,
                  controls = ctree_control(minbucket= nrow(tbla)*(1/max_q_groups) ) )
   #minbucket es la cant minima de casos en un nodo terminal
+  }
+  if(algoritmo=='evetree'){
+    treeLoc<- evtree::evtree(target~(variable_valor), tbla,
+                              controls=evtree.control(minbucket= nrow(tbla)*(1/max_q_groups)))
+    #minbucket es la cant minima de casos en un nodo terminal
+  }
 
-  if(flag_numerica==0){
+
+    if(flag_numerica==0){
     tbla$nodo_pred<-predict(treeLoc, tbla,type="node")
     b<- data.frame(tbla%>%group_by(nodo_pred)%>%summarise(pos_nodo=sum(target),
                                                           cant_nodo=n(),
@@ -92,7 +101,7 @@ agrupa_ctree<-function(tbla, target_name, variable_name, flag_numerica, max_q_gr
       corte_sup=NA,
       pos_nodo=sum(target),
       cant_nodo=n(),
-      rt_nodo=round(pos/cant,3)
+      rt_nodo=round(pos_nodo/cant_nodo,3)
     ))
     devol=rbind(b_con_na, b_sin_na)
 
@@ -103,8 +112,29 @@ agrupa_ctree<-function(tbla, target_name, variable_name, flag_numerica, max_q_gr
   maximo_nodo=max(devol$nodo_pred)
 
   #los que tienen menos de x registros los pongo todos juntos
+  ##volver a calcular cuantos quedan en cada grupo
   devol$nodo_pred[devol$cant_var<min_q_casos ]<- 'pocos_casos'
+
+  if(flag_numerica==0){
+    devol$rt_nodo<-NULL
+    devol$pos_nodo<-NULL
+    devol$cant_nodo<-NULL
+    b<- data.frame(devol%>%group_by(nodo_pred)%>%summarise(pos_nodo=sum(pos_var),##sobre la tabla ya agrupada
+                                                        cant_nodo=sum(cant_var),
+                                                        rt_nodo=round(pos_nodo/cant_nodo,3)
+    ))
+    devol=merge(devol, b, by='nodo_pred')
+
+    }
+
+
+
+
+
+
   devol$rt_nodo=ifelse(devol$rt_nodo==0,0.0001, ifelse(devol$rt_nodo==1,0.9999, devol$rt_nodo))
+
+
 
   devol$log_odds=round(log(devol$rt_nodo/(1-devol$rt_nodo)),3)
   devol$participacion=round(devol$cant_nodo/sum(devol$cant_nodo) ,3)
@@ -112,8 +142,14 @@ agrupa_ctree<-function(tbla, target_name, variable_name, flag_numerica, max_q_gr
   #grupos que quedaron
   n_grupos=length(unique(devol$nodo_pred[devol$cant_var>=min_q_casos]))
 
-  if(n_grupos>=1){
-    devol$nodo_pred[ devol$cant_var>=min_q_casos ] = seq( from=1 , to=n_grupos, by=1)
+  if(n_grupos>=1 ){
+  niveles=sort(unique( as.numeric(as.character(devol$nodo_pred[ devol$cant_var>=min_q_casos ] ))))
+    conversion=data.frame(nodo_pred0=niveles,nodo_pred=1:n_grupos )
+    print(conversion)
+    for (i in niveles){
+      devol$nodo_pred[ devol$nodo_pred==i ] = conversion$nodo_pred[conversion$nodo_pred0==i]
+    }
+
       }
 
   if(flag_numerica==1){
