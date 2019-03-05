@@ -18,7 +18,6 @@ aplica_agrupa_nominal(train_tbl, char_cols, target_name, lim_cant_categ,
 }
 \description{
 apply agrupa_nominal to a list of variables
-.
 }
 \examples{
 tbla<-data.frame(

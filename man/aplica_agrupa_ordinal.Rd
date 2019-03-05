@@ -20,5 +20,11 @@ aplica_agrupa_ordinal(train_tbl, num_cols, target_name, num_ini_groups,
 }
 \description{
 apply agrupa_ordinal to a list of variables
-.
+}
+\examples{
+tbla<-data.frame(
+grupo1=rep(1:5,100/5),
+valor=c( as.numeric(rep(runif(90), 1)>.5) , rep(0, 5), rep(1, 5)) ,
+grupo2=rep(c(11,22,33,33,33),100/5))
+aplica_agrupa_ordinal(train_tbl=tbla, num_cols=c('grupo1', 'grupo2'), target_name='valor', num_ini_groups=20, limite=0.05)
 }

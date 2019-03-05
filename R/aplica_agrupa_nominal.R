@@ -2,7 +2,7 @@
 #' aplica_agrupa_nominal
 #'
 #' apply agrupa_nominal to a list of variables
-#' .
+#'
 #' @param train_tbl table with data. It has to have the nominal variable and the target variable.
 #' @param char_cols name of the nominal variables that you want to group.
 #' @param target_name name if the target variable.
