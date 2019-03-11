@@ -5,7 +5,6 @@
 #' @param tbla table with data. It has to have the variable and the target variable.
 #' @param variable_name name of the variable that you want to analyze.
 #' @param target-name name of the target variable.
-#' @keywords
 #' @import pROC
 #' @import rpart
 #' @export
@@ -27,7 +26,7 @@ estabilidad_poder_predictivo_de_variable <- function(tbla, variable_name,target_
   #target_name='y'
   #library(pROC)
   #primero entreno el modelo de logística con las variables que pasan
-  #var_particion_estabilidad='x1'
+  #var_particion_estabilidad='per'
   print('ENTRENAMIENTO')
   tbla<-data.frame(tbla)
   tbla$target<-tbla[, target_name]
@@ -42,20 +41,21 @@ estabilidad_poder_predictivo_de_variable <- function(tbla, variable_name,target_
   uno=sort(unique(tbla$target))[2]
 
   ks_valor= ks.test(tbla$pred[tbla$target==cero], tbla$pred[tbla$target==uno])
-  ks_valor=as.numeric(ks_valor$statistic)
-  auc_valor = as.numeric(auc(tbla$target,tbla$pred ))
+  ks_valor= round(as.numeric(ks_valor$statistic),3)
+  auc_valor = round(as.numeric(auc(tbla$target,tbla$pred )),3)
   gini_valor=(2*auc_valor - 1)
 
   devuelve_train=data.frame(variable_name=variable_name, criterio='train', ks_valor=ks_valor,auc_valor=auc_valor, gini_valor=gini_valor)
 
-  print('ESTABILIDAD')
+  print('ESTABILIDAD con mismo modelo (sin reentrenar en cada período')
   tbla$particion<-tbla[, var_particion_estabilidad]
 
-  if(is.numeric(tbla$particion)==T){
+  if(is.numeric(tbla$particion)==T & length(unique(tbla$particion))>10 ){
     cortes=quantile(tbla$particion, probs=seq(0,1,0.1))
     tbla$particion_cortada=cut(tbla$particion, cortes)
     } else {tbla$particion_cortada<-tbla$particion}
 
+  devuelve_test=data.frame()
   niveles=sort(unique(tbla$particion_cortada))
   for (i in niveles){#i=niveles[1]
     subtbla<-tbla[tbla$particion_cortada %in% i,]
@@ -65,13 +65,14 @@ estabilidad_poder_predictivo_de_variable <- function(tbla, variable_name,target_
     uno=sort(unique(subtbla$target))[2]
 
     ks_valor= ks.test(subtbla$pred[subtbla$target==cero], subtbla$pred[subtbla$target==uno])
-    ks_valor=as.numeric(ks_valor$statistic)
-    auc_valor = as.numeric(auc(subtbla$target,subtbla$pred ))
+    ks_valor= round(as.numeric(ks_valor$statistic),3)
+    auc_valor = round(as.numeric(auc(subtbla$target,subtbla$pred )),3)
     gini_valor=(2*auc_valor - 1)
 
     devuelve_test0=data.frame(variable_name=variable_name, criterio=i, ks_valor=ks_valor,auc_valor=auc_valor, gini_valor=gini_valor)
-
-    }
-
+    devuelve_test=rbind(devuelve_test, devuelve_test0)
+  }
+  devuelve_test$criterio<-as.character(devuelve_test$criterio)
+  devuelve=rbind(devuelve_train,devuelve_test)
   return(devuelve)
 }

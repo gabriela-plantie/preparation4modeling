@@ -6,9 +6,20 @@
 #' @param df_agrupada_y table with data. It has to have the nominal variable and the target variable.
 #' @param variables names of the factor variables.
 #' @param nombre_target name of the target variable.
-#' @keywords
 #' @export
 #' @examples
+
+#' x1 = rnorm(1000)
+#' x2 = rnorm(1000)
+#' x3= ifelse(as.factor(x2>0.5)==T, 'A', 'B')
+#' x4= ifelse(as.factor(x2>0.7)==T, 'C', 'D')
+#' z = 1 + 2 * x1 + 3 * x2+2*x4
+#' pr = 1/(1+exp(-z))
+#' y = rbinom(1000,1,pr)
+#' tbla = data.frame(y=y,x1=x1,x2=x2, x3=x3, x4=x4)
+#' tbla<-redefine_level_0( df_agrupada_y=tbla ,variables=c('x3',  'x4') ,nombre_target='y')
+
+
 
 redefine_level_0<-function(df_agrupada_y ,variables ,nombre_target){
   df_agrupada_y<-data.frame(df_agrupada_y)

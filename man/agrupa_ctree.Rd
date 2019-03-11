@@ -5,7 +5,8 @@
 \title{agrupa ctree}
 \usage{
 agrupa_ctree(tbla, target_name, variable_name, flag_numerica,
-  max_q_groups = 20, min_q_casos = 100, algoritmo = "chaid")
+  max_q_groups = 20, min_q_casos = 100, algoritmo = "chaid",
+  niterations = 10000)
 }
 \arguments{
 \item{tbla}{table with data. It has to have the variable and the target variable.}
@@ -19,7 +20,7 @@ agrupa_ctree(tbla, target_name, variable_name, flag_numerica,
 \item{max_q_groups}{maximum number of groups to split the variable}
 }
 \description{
-group valors of ordinal or categorical variables according to a target variable
+group values of ordinal or categorical variables according to a target variable
 .
 }
 \examples{

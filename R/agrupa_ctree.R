@@ -1,6 +1,6 @@
 #' agrupa ctree
 #'
-#' group valors of ordinal or categorical variables according to a target variable
+#' group values of ordinal or categorical variables according to a target variable
 #' .
 #' @param tbla table with data. It has to have the variable and the target variable.
 #' @param variable_name name of the variable that you want to analyze.
@@ -33,7 +33,8 @@
 
 
 
-agrupa_ctree<-function(tbla, target_name, variable_name, flag_numerica, max_q_groups=20, min_q_casos=100, algoritmo='chaid'){
+agrupa_ctree<-function(tbla, target_name, variable_name, flag_numerica,
+                       max_q_groups=20, min_q_casos=100, algoritmo='chaid', niterations=10000){
   tbla<-data.frame(tbla)
   devuelve<-data.frame()
 
@@ -61,7 +62,8 @@ agrupa_ctree<-function(tbla, target_name, variable_name, flag_numerica, max_q_gr
   }
   if(algoritmo=='evetree'){
     treeLoc<- evtree::evtree(target~(variable_valor), tbla,
-                              controls=evtree.control(minbucket= nrow(tbla)*(1/max_q_groups)))
+                              controls=evtree.control(minbucket= nrow(tbla)*(1/max_q_groups),
+                                                      niterations=niterations))
     #minbucket es la cant minima de casos en un nodo terminal
   }
 
