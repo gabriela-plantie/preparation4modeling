@@ -36,12 +36,12 @@
 agrupa_ctree<-function(tbla, target_name, variable_name, flag_numerica,
                        max_q_groups=20, min_q_casos=100, algoritmo='chaid', niterations=10000){
  if(flag_numerica==1){
-  agrupa_ctree_numerica(tbla, target_name, variable_name,
+  devol=agrupa_ctree_numerica(tbla, target_name, variable_name,
                         max_q_groups=20, min_q_casos=100, algoritmo='chaid', niterations=10000)
 }
 
   if(flag_numerica==0){
-    agrupa_ctree_categorica(tbla, target_name, variable_name,
+    devol=agrupa_ctree_categorica(tbla, target_name, variable_name,
                           max_q_groups=20, min_q_casos=100, algoritmo='chaid', niterations=10000)
   }
 

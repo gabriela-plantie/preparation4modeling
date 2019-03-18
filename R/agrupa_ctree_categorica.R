@@ -54,9 +54,10 @@ devol$nodo_pred[devol$cant_var<min_q_casos ]<- 'pocos_casos'
   devol$cant_nodo<-NULL
   b<- data.frame(devol%>%group_by(nodo_pred)%>%summarise(pos_nodo=sum(pos_var),##sobre la tabla ya agrupada
                                                          cant_nodo=sum(cant_var),
-                                                         rt_nodo=round(pos_nodo/cant_nodo,3),
-                                                         participacion=round(devol$cant_nodo/sum(devol$cant_nodo) ,3)
+                                                         rt_nodo=round(pos_nodo/cant_nodo,3)
   ))
+  b$participacion=round(b$cant_nodo/sum(b$cant_nodo) ,3)
+
   devol=merge(devol, b, by='nodo_pred')
 
 
