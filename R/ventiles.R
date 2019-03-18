@@ -32,7 +32,10 @@ ventiles<-function(tbla, targets, score_name){
     #print(j)
     i=targets[j]
     a$target<-a[, i]
-    b=data.frame(a%>%group_by(grupos)%>%summarise(tot=n(), bajas=sum(target), br=round(bajas/tot,3)))
+    b=data.frame(a%>%group_by(grupos)%>%summarise(
+                                                  tot=n(),
+                                                  bajas=sum(target),
+                                                  br=round(bajas/tot,3)))
 
     b$pos_ac<-round(cumsum(b$tot*b$br)/sum(b$tot*b$br),2)
     b$neg_ac<-round(cumsum(b$tot*(1-b$br))/sum(b$tot*(1-b$br)),2)
@@ -56,6 +59,13 @@ ventiles<-function(tbla, targets, score_name){
   nombres_ks=nombres[grep('ks_',nombres)]
   nombres_br=nombres[grep('br_',nombres)]
   c=c[, c('grupos', 'tot', nombres_br, nombres_ks)]
+
+  c$min_prob=sapply(as.character(c$grupos), function(x) strsplit(x, '\\,')[[1]][1])
+  c$max_prob=sapply(as.character(c$grupos), function(x) strsplit(x, '\\,')[[1]][2])
+
+  c$min_prob=as.numeric(gsub('\\(', '', c$min_prob))
+  c$max_prob=as.numeric(gsub('\\]', '', c$max_prob))
+
   return(c)
 
   }

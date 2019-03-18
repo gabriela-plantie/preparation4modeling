@@ -71,7 +71,6 @@ tabla_estimadores<-function(lr){
     }
   }
 
-  sum_df=sum_df[order(sum_df$num_variable, sum_df$variable_nivel),]
 
 
   #importancia
@@ -81,6 +80,8 @@ tabla_estimadores<-function(lr){
   estim_max$importancia=round(estim_max$max_estim/sum(estim_max$max_estim),3)
 
   sum_df2<-merge(sum_df, estim_max, by='variable', all.x=T)
+
+  sum_df2=sum_df2[order(sum_df2$num_variable, sum_df2$nivel),]
 
   return(sum_df2)
 }
