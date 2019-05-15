@@ -43,8 +43,8 @@ agrupa_ctree<-function(tbla, target_name, variable_name, flag_numerica,
   if(flag_numerica==0){
     devol=agrupa_ctree_categorica(tbla, target_name, variable_name,
                           max_q_groups=20, min_q_casos=100, algoritmo='chaid', niterations=10000)
-  }
-
+    devol<-devol[order(devol$nodo_pred, devol$rt_var),]
+    }
 
   return(devol)
 }
