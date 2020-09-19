@@ -1,0 +1,133 @@
+---
+title: "preparation4modelling"
+author: "gabriela plantie"
+date: "2019-01"
+output: github_document
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+options(tibble.print_min = 5, tibble.print_max = 5)
+
+options(warn = -1)
+
+```
+
+
+## Overview
+
+This is a package that groups variables (categorical and numerical) according to their likelihood of producing the event analyzed. It can be used as a tool to explore information for building a model to predict a binary target. 
+
+
+## Install
+```{r, eval=T}
+library(devtools)
+#devtools::install_github("gabriela-plantie/preparation4modeling", force=T, dependencies = F)
+library(preparation4modeling)
+```
+
+## Usage
+### Example table
+```{r, eval=T}
+set.seed(1)
+x1 = rnorm(1000)
+x2 = rnorm(1000)
+x4='A'
+x4=ifelse(x1>0.1,'B', x4)
+x4=ifelse(x1>0.4,'C', x4 )
+x4=ifelse(x1>0.6,'D', x4 )
+x4=ifelse(x1>0.8,'E', x4 )
+z = 1 + 3*x1
+pr = 1/(1+exp(-z))
+y = rbinom(1000,1,pr)
+tbla = data.frame(y=y,x1=x1,x2=x2, x4=x4)
+q_nas=100
+x1[1:q_nas] = NA
+x4[1:q_nas]=NA
+ 
+```
+
+
+
+### Analyzing variables against target
+
+#### numerical variable with tree
+```{r, eval=T}
+agrupa_ctree (tbla, target_name='y', variable_name='x1',flag_numerica=1, max_q_groups=10, algoritmo='chaid' )
+```
+
+
+#### categorical variable with tree
+```{r, eval=T}
+agrupa_ctree (tbla, target_name='y', variable_name='x4',flag_numerica=0, algoritmo='chaid' )
+```
+
+
+#### categorical variable with hipergeometric test
+```{r, eval=T}
+agrupa_nominal_filtra_small(tbla, target_name='y', variable_name='x4',limite=0.05, symbol_to_split='%#%', limite_grupo=100)
+```
+ 
+ 
+### example table 2 
+```{r, eval=T}
+x1 = rnorm(1000)
+x2 = rnorm(1000)
+x3= ifelse(as.factor(x2>0.5)==T, 'A', 'B')
+x4= ifelse(as.factor(x2>0.7)==T, 'C', 'D')
+z = 1 + 2 * x1 + 3 * x2
+pr = 1/(1+exp(-z))
+y = rbinom(1000,1,pr)
+tbla = data.frame(y=y,x1=x1,x2=x2, x3=x3, x4=x4)
+
+```
+
+
+### define level according to bad rate
+```{r, eval=T}
+tbla<-redefine_level_0( df_agrupada_y=tbla ,variables=c('x3',  'x4') ,nombre_target='y')
+```
+
+
+### generating model and scorecard table
+```{r, eval=T}
+filtros_train= (tbla$random=runif(nrow(tbla)))<0.5
+f=formula(y~x3+x4)
+lr <- glm(f, tbla[ filtros_train, ], family = 'binomial')
+tabla_estimadores(lr)
+```
+
+
+### example table 3 
+```{r, eval=T}
+x1 = rnorm(1000)
+x2 = rnorm(1000)
+z = 1 + 2 * x1 + 3 * x2
+pr = 1/(1+exp(-z))
+y = rbinom(1000,1,pr)
+y1 = rbinom(1000,1,abs(pr-0.05))
+tbla = data.frame(y=y,x1=x1,x2=x2, y1=y1)
+f=formula(y~x1+x2)
+lr <- glm(f, tbla, family = 'binomial')
+tbla$prob<-predict(lr, tbla, type='response')
+```
+
+### generating performance table
+```{r, eval=T}
+ventiles(tbla, targets=c('y', 'y1'), score_name = 'prob')
+```
+
+
+
+
+
+
+
+
+
