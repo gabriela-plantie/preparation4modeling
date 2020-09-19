@@ -56,30 +56,28 @@ maximo_nodo=max(devol$nodo_pred)
 devol$nodo_pred[devol$cant_var<min_q_casos ]<- 'pocos_casos'
 
 
-
-
 devol$rt_nodo=ifelse(devol$rt_nodo==0,0.0001, ifelse(devol$rt_nodo==1,0.9999, devol$rt_nodo))
-
-
 
 devol$log_odds=round(log(devol$rt_nodo/(1-devol$rt_nodo)),3)
 devol$participacion=round(devol$cant_nodo/sum(devol$cant_nodo) ,3)
 
 #grupos que quedaron
-n_grupos=length(unique(devol$nodo_pred[devol$cant_var>=min_q_casos]))
-
+n_grupos=length(unique(devol$nodo_pred[devol$cant_nodo>=min_q_casos]))
+#print(paste0('++++++++++++++++++++++++++++ n_grupos: ', n_grupos))
 
 if(n_grupos>=1 ){
-  niveles=sort(unique( as.numeric(as.character(devol$nodo_pred[ devol$cant_var>=min_q_casos ] ))))
+  niveles=sort(unique( as.numeric(as.character(devol$nodo_pred[ devol$cant_nodo>=min_q_casos ] ))))
   conversion=data.frame(nodo_pred0=niveles,nodo_pred=1:n_grupos )
-  print(conversion)
+ # print(conversion)
   for (i in niveles){
     devol$nodo_pred[ devol$nodo_pred==i ] = conversion$nodo_pred[conversion$nodo_pred0==i]
   }
-
-}
   devol$rangos_pred<-paste0('(', c(-Inf,devol$corte_inf[2:nrow(devol)]) ,',',
                             c(devol$corte_sup[1:(nrow(devol)-1)], Inf),']')
+
+}
+  if(n_grupos==0){ devol$rangos_pred<-paste0( '[', devol$corte_inf,'-', devol$corte_sup,']')  }
+
   columnas_numerica= c('variable_name','nodo_pred', 'rangos_pred',
                        'cant_nodo' ,'pos_nodo', 'rt_nodo',
                        'participacion', 'log_odds',

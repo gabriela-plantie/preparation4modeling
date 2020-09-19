@@ -88,4 +88,5 @@ if(n_grupos>=1 ){
                          'cant_var', 'pos_var', 'rt_var')
   devol=devol[,columnas_categorica]
 
+  #devol=devol[order(devol$nodo_pred, -devol$rt_var),]
 return(devol)}

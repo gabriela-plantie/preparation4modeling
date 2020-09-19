@@ -4,7 +4,7 @@
 \alias{ventiles}
 \title{ventiles}
 \usage{
-ventiles(tbla, targets, score_name)
+ventiles(tbla, targets, score_name, partition = 0.05)
 }
 \arguments{
 \item{tbla}{table with data. It has to have the variable and the target variables.}
@@ -12,6 +12,8 @@ ventiles(tbla, targets, score_name)
 \item{targets}{vector with the names of the targets.}
 
 \item{score_name}{name of the score variable.}
+
+\item{partition}{of group: quantile 0 to 1 by partition}
 }
 \description{
 ventiles

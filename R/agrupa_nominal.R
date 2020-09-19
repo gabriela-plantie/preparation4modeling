@@ -85,6 +85,21 @@ agrupa_nominal<-function(tbla,  target_name, variable_name, limite, symbol_to_sp
                          'cant_var', 'pos_var', 'rt_var')
 
  devol<- devol[,columnas_categorica]
- devol = devol[order(devol$rt_var),]
+ devol = devol[order(-devol$rt_var),]
+
+
+
+
+ devol$nodo_pred2<-devol$nodo_pred
+ devol$nodo_pred2[1]<-1
+
+ for (i in 2:nrow(devol)){
+   if(devol$nodo_pred[i]==devol$nodo_pred[i-1] ){
+     devol$nodo_pred2[i]=devol$nodo_pred2[i-1]}else {devol$nodo_pred2[i]=devol$nodo_pred2[i-1]+1}
+ }
+
+ devol$nodo_pred=devol$nodo_pred2
+ devol$nodo_pred2=NULL
+
  return(devol)
 }

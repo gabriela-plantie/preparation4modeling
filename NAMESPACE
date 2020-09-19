@@ -2,6 +2,7 @@
 
 export(agrupa_ctree)
 export(agrupa_nominal)
+export(agrupa_nominal_filtra_small)
 export(agrupa_ordinal)
 export(aplica_agrupa_nominal)
 export(aplica_agrupa_ordinal)

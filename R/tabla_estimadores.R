@@ -74,7 +74,7 @@ tabla_estimadores<-function(lr){
 
 
   #importancia
-
+  #library(dplyr)
   estim_max=data.frame(sum_df%>%group_by(variable)%>%summarise(max_estim=max(abs(Estimate))))
   estim_max=estim_max[estim_max$variable!='Intercepto',]
   estim_max$importancia=round(estim_max$max_estim/sum(estim_max$max_estim),3)
@@ -83,6 +83,25 @@ tabla_estimadores<-function(lr){
 
   sum_df2=sum_df2[order(sum_df2$num_variable, sum_df2$nivel),]
 
-  return(sum_df2)
+  #agrega el orden de los estimadores
+
+  #print('los niveles deben tener un numero de orden de la BR para poder calcular las interacciones')
+  b_rank<-data.frame(sum_df2%>%group_by(variable)%>%mutate(ranking = rank(Estimate, ties.method = 'first')))
+
+  est0=data.frame(b_rank%>%group_by(variable)%>%summarise(min_Est=min(Estimate)))
+  est=est0[est0$variable!='Intercepto',]
+  tabla_multipl=round(1000/sum(est$min_Est),4)
+  suma_teorica=round(sum(est$min_Est*tabla_multipl),0)
+
+
+  b_rank$puntos<-round(b_rank$Estimate*tabla_multipl,0)
+  b_rank$puntos[b_rank$puntos== -0] = 0
+  b_rank$puntos[b_rank$variable=='Intercepto']=0
+  est1=data.frame(b_rank%>%group_by(variable)%>%summarise(max_ptos=max(puntos)))
+  suma_real=sum(est1$max_ptos)
+
+
+  devolver=list(b_rank, tabla_multipl, suma_teorica, suma_real)
+  return(devolver)
 }
 
