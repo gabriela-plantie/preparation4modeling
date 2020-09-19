@@ -28,9 +28,9 @@ aplica_agrupa_ordinal<-function(train_tbl, num_cols, target_name, num_ini_groups
   for (i in num_cols){#i=num_cols[2]
     distintos=unique(data.frame(train_tbl[,i, with=F]))
     distintos=distintos[!is.na(distintos)]
-    if(length(distintos)<=2){        print(paste0(j, ' de ', tot ,' - no agrupa ', i))
+    if(length(distintos)<=2){    print(paste0(j, ' de ', tot ,' - no agrupa ', i))
       }else{
-    print(paste0(j, ' de ', tot ,' - agrupa ', i))
+    #print(paste0(j, ' de ', tot ,' - agrupa ', i))
 
       res_nom<-agrupa_ordinal(tbla_0=train_tbl,  target_name,variable_name=i, grupos_iniciales=num_ini_groups ,limite)
      res_tbla=rbind(res_tbla, res_nom)

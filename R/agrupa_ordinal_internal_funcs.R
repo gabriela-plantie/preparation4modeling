@@ -3,7 +3,7 @@
 #' @importFrom magrittr "%>%"
 
 genera_deciles<-function(tbla, variable_name, target_name, q){
-  print('genera deciles')
+  #print('genera deciles')
   tbla<-data.frame(tbla)
   tbla1<-tbla[!is.na(tbla[, variable_name]),]
   grupos<-quantile(tbla1[, variable_name], probs=seq(0,1,as.numeric(1/q)), na.rm=T)
@@ -21,7 +21,7 @@ genera_deciles<-function(tbla, variable_name, target_name, q){
 #sino me queda algo oscilante, q tiene mas chances de tener overfitting
 
 encuentra_sentido<-function(tbla_0, variable_name, target_name){
-  print('encuentra sentido')
+  #print('encuentra sentido')
   tbla_0$deciles<-genera_deciles(tbla_0, variable_name, target_name, q=5)
   tbla_agr<-devuelve_tabla_agrupada(tbla_0, 'deciles', target_name)
   if(tbla_agr[nrow(tbla_agr), 'rt']>tbla_agr[1, 'rt']) {1} else{-1}
@@ -71,7 +71,7 @@ obtiene_extremos<-function(tbla_agrupada, var_en_rangos){
 
 
 agrupar_por_br <- function(tbla_agrupada,sentido,var_en_rangos) {
-  print('agrupa por br')
+  #print('agrupa por br')
   #print(tbla_agrupada)
   seguir_agrupando = T;
     while(seguir_agrupando){#evalua la distancia
@@ -90,14 +90,14 @@ agrupar_por_br <- function(tbla_agrupada,sentido,var_en_rangos) {
     tbla_agrupada = tbla_agrupada[order(tbla_agrupada$numero* sentido),]
     seguir_agrupando = nrow(tbla_agrupada) < cantidad_de_filas
     }
-  print('fin_agrupa por br sin errores')
+  #print('fin_agrupa por br sin errores')
   return(tbla_agrupada)
 }
 
 
 
 agrupar_por_test <- function(tbla_agrupada,limite,sentido,var_en_rangos) {
-  print('agrupa test hypergeom')
+  #print('agrupa test hypergeom')
   seguir_agrupando = T;
   tbla_agrupada$prob<-NA
 

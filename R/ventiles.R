@@ -36,7 +36,7 @@ ventiles<-function(tbla, targets, score_name, partition=0.05){
   if(lim_sup>200){lim_sup_f=1000.1}
 
   cortes_quedan=sort(unique(c(0,cortes[2: (length(cortes)-1) ], lim_sup_f )))
-  print(cortes_quedan)
+  #print(cortes_quedan)
   a$grupos=cut(a$prob, cortes_quedan, include.lowest = T, right=T)
 
 

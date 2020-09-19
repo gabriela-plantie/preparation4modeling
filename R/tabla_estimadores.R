@@ -102,6 +102,8 @@ tabla_estimadores<-function(lr){
 
 
   devolver=list(b_rank, tabla_multipl, suma_teorica, suma_real)
+  names(devolver)=c('scorecard', 'multiplier', 'theorical_sum', 'real_sum')
+
   return(devolver)
 }
 

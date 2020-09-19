@@ -19,7 +19,7 @@
 
 agrupa_nominal_filtra_small<-function(tbla,  target_name, variable_name, limite, symbol_to_split='%-%', limite_grupo=100){
   tbla<-data.frame(tbla)
-  print(paste0("código para los NA es 'NoValor'. Hay: ", sum(is.na(tbla[, variable_name])), ' NA. '))
+  #print(paste0("código para los NA es 'NoValor'. Hay: ", sum(is.na(tbla[, variable_name])), ' NA. '))
   tbla[,variable_name]<-as.character(tbla[,variable_name])
   tbla[ is.na(tbla[,variable_name]) , variable_name]<-'NoValor'
   tbla[ tbla[,variable_name]=='' , variable_name]<-'NoValor'
@@ -29,7 +29,7 @@ agrupa_nominal_filtra_small<-function(tbla,  target_name, variable_name, limite,
 
   tbla_agrupada_small<- tbla_agrupada0[tbla_agrupada0$cant_var<limite_grupo,]
 
-   print(paste0('********************grupos con menos casos que ', limite_grupo , ': ',nrow(tbla_agrupada_small)))
+   #print(paste0('********************grupos con menos casos que ', limite_grupo , ': ',nrow(tbla_agrupada_small)))
 
   ###################ahora sigo con las agrupaciones#########
   quedan<- tbla_agrupada0[tbla_agrupada0$cant_var>=limite_grupo,'variable_valor']

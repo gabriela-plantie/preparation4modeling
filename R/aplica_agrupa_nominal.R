@@ -34,7 +34,7 @@ aplica_agrupa_nominal<-function(train_tbl, char_cols, target_name, lim_cant_cate
     distintos=length( unique(train_tbl[,i]))
 
     if( distintos <=lim_cant_categ & distintos>2 ){
-      print(paste0(j, ' de ', tot ,' - agrupa ', i , ' _ niveles: ', distintos))
+      #print(paste0(j, ' de ', tot ,' - agrupa ', i , ' _ niveles: ', distintos))
       res_nom<-agrupa_nominal(train_tbl,  target_name,i, limite, symbol_to_split)
       res_tbla=rbind(res_tbla, res_nom)
     }else {print(paste0('no agrupa ', i, ' _ niveles: ', distintos))}

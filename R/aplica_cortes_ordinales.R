@@ -43,7 +43,7 @@ aplica_cortes_ordinales<-function(tbla_cortes_variables_ord, tbl, campo_merge){
 
   variables_ord<-unique(tbla_fin$variable_name)
   for (i in variables_ord){#i=variables_ord[3]
-    print(i)
+    #print(i)
     tbla_rangos=tbla_fin[tbla_fin$variable_name==i, ]
     tbla_rangos=tbla_rangos[, !is.na(colnames(tbla_rangos))]
 
@@ -62,9 +62,9 @@ aplica_cortes_ordinales<-function(tbla_cortes_variables_ord, tbl, campo_merge){
     colnames(b)[3]=paste0(i, '_rt')
     colnames(b)[4]=paste0(i, '_log_odds')
 
-    print(paste0('dim b: ', list(dim(b))))
+    #print(paste0('dim b: ', list(dim(b))))
     fin=merge( fin ,b, by=eval(campo_merge), all.x=T)
-    print(paste0('dim fin: ', dim(fin)))
+    #print(paste0('dim fin: ', dim(fin)))
   }
   return(fin)
 }

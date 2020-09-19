@@ -18,7 +18,7 @@
 
 agrupa_nominal<-function(tbla,  target_name, variable_name, limite, symbol_to_split){
   tbla<-data.frame(tbla)
-  print(paste0("código para los NA es 'NoValor'. Hay: ", sum(is.na(tbla[, variable_name])), ' NA. '))
+  #print(paste0("código para los NA es 'NoValor'. Hay: ", sum(is.na(tbla[, variable_name])), ' NA. '))
   tbla[,variable_name]<-as.character(tbla[,variable_name])
   tbla[ is.na(tbla[,variable_name]) , variable_name]<-'NoValor'
   tbla[ tbla[,variable_name]=='' , variable_name]<-'NoValor'
@@ -51,7 +51,7 @@ agrupa_nominal<-function(tbla,  target_name, variable_name, limite, symbol_to_sp
   tbla_agrupada$rt=round(tbla_agrupada$pos/tbla_agrupada$tot,3)
   tbla_agrupada$rt=ifelse(tbla_agrupada$rt==0,0.0001, ifelse(tbla_agrupada$rt==1,0.9999, tbla_agrupada$rt))
 
-   print(paste0('-->grupos_finales:', nrow(tbla_agrupada)))
+   #print(paste0('-->grupos_finales:', nrow(tbla_agrupada)))
 
   sub_tbla<-tbla_agrupada
 
